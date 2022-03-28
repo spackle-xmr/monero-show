@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-
-
 <html>
     <head>
         <meta charset="UTF-8">
@@ -34,6 +31,4 @@ Wallet View Key: <input type="text" name="viewkey"><br>
  <h3>D: </h3>
 <hr/>
  </body>
-</html>
-    
 </html>
