@@ -31,7 +31,7 @@ Wallet View Key: <input type="text" name="viewkey"><br>
 
 
 <hr/>
- <h3>Donations: </h3>
+ <h3>D: </h3>
 <hr/>
  </body>
 </html>
