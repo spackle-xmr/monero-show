@@ -1,0 +1,83 @@
+version: '2.2'
+
+# Services
+services:
+
+  # Nginx Service
+  nginx:
+    image: nginx:1.18.0
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/php
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
+      
+      
+  # PHP Service
+  php:
+    #image: php:7.4-fpm
+    build: ./docker/php
+    working_dir: /var/www/php
+    volumes:
+      - ./src:/var/www/php
+      
+      
+  # monerod Service
+  monerod:
+    image: sethsimmons/simple-monerod:latest
+    restart: unless-stopped
+    container_name: monerod
+    volumes:
+      - ./bitmonero:/home/monero/.bitmonero
+    ports:
+      - 18080:18080
+      #- 18081:18081
+      - 18089:18089
+    command:
+      #- "--non-interactive"
+      - "--rpc-restricted-bind-ip=0.0.0.0"
+      - "--rpc-restricted-bind-port=18089"
+      - "--no-igd"
+      - "--no-zmq"
+      - "--confirm-external-bind"
+      - "--public-node"
+      - "--enable-dns-blocklist"
+      - "--out-peers=80"
+      - "--limit-rate=512"
+
+  # monero-wallet-rpc Service
+  monero-rpc:
+    image: sethsimmons/simple-monero-wallet-rpc
+    #restart: unless-stopped
+    container_name: monero-wallet-rpc
+    volumes:
+      - ./docker/wallet:/home/monero
+    command: 
+      - "--rpc-bind-ip=0.0.0.0"
+      - "--rpc-bind-port=18083"     
+      - "--confirm-external-bind"
+      - "--disable-rpc-login"
+      - "--daemon-address=monerod:18089"
+      - "--trusted-daemon"
+      #- "--wallet-file=Passa"
+      #- "--password=a"
+      - "--wallet-dir=/home/monero"
+    ports:
+      - 18083:18083
+    depends_on:
+      - monerod
+
+
+
+
+
+  # watchtower Service
+  watchtower:
+    image: containrrr/watchtower
+    #restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
