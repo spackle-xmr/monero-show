@@ -21,12 +21,20 @@ $walletRPC = new walletRPC('172.17.0.1', 18083, false);
 $address=$_POST["address"];
 $viewkey=$_POST["viewkey"];
 
+//Input Filtering
+if (!empty($_POST['address']) && !empty($_POST['viewkey'])) {
+	
+    $address = preg_replace("/[^a-zA-Z0-9]/", "", $_POST['address']);
+    $viewkey = preg_replace("/[^a-zA-Z0-9]/", "", $_POST['viewkey']);
+}
+
 if ((strlen($address) > 100) || (strlen($viewkey) > 70)){
     exit("Input has invalid address/viewkey.");
 }
 
 
 
+//Create Wallet and Synchronize
 $generate_from_keys = $walletRPC->generate_from_keys('monero_wallet', '', $address, $viewkey); // Create wallet
 $get_height = $walletRPC->get_height();
 $getblockcount = $daemonRPC->getblockcount();
@@ -38,11 +46,11 @@ $getblockcount = $daemonRPC->getblockcount();
 //}
 
 
-//store wallet and close
+//Store wallet and close
 $walletRPC->store();
 $close_wallet = $walletRPC->close_wallet();
 
-//Send File to Client
+//Send Wallet File to Client
 $file = 'monero_wallet';
 
 if (file_exists($file)) {
