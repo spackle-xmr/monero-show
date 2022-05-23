@@ -17,7 +17,7 @@ Seraphis View Potential Issues:
 1. On-chain privacy impact
 2. Compliance Requirements
 
-1. In the wildest theory you can imagine this is possible; however, to eliminate 64->10 decoys to get back to where we are today would require ~78% of view keys being aggregated by a centralized entity. It is practically unthinkable.
+1. In the wildest theory you can imagine this is possible; however, to eliminate 64->10 decoys to get back to where we are today would require ~78% of view keys being aggregated by a centralized entity (bad statistic, yes I know. Still.). It is practically unthinkable.
 2. We alraedy have view capability, and the entire view capability that would be useful to exchanges monitoring deposits. This does not change the playing field.
 
 Lets image that on day one of the Seraphis hardfork, the malicious actor whatever.com accounces that it is offering near instant wallet synchronization. It collects all view keys and sells the data to blockchain analytics firms. This seems like it should be avoided, and the easy answer is to offer a decentalized scanning service for people to use instead. This is not a perfect fix, but we'll get to that later.
